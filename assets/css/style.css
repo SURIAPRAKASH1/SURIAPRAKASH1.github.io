@@ -316,8 +316,6 @@ body {
 
 /* Footer Styles */
 .site-footer {
-  background: var(--light-gray);
-  border-top: 1px solid var(--border-color);
   margin-top: auto;
 }
 

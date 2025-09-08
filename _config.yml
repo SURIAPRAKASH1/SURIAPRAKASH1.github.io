@@ -5,7 +5,7 @@ author: "Suriya Prakash"
 email: your-email@example.com
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://SURIAPRAKASH1.github.io" # the base hostname & protocol for your site
-github_url: "https://github.com/yourusername/your-rl-blog"
+github_url: "https://github.com/SURIAPRAKASH1/SURIAPRAKASH1.github.io"
 
 # Build settings
 markdown: kramdown

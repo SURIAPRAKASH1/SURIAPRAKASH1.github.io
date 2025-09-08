@@ -1,3 +1,7 @@
+---
+tags: [reinforcement-learning, RL, rl-intro, reinforcement-learing-intro]
+---
+
 # Reinforcement Learning Intro 🤖
 
 ## What makes reinforcement learning different from other paradigms ?:

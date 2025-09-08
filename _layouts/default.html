@@ -43,12 +43,8 @@
     <!-- Footer with minimal information -->
     <footer class="site-footer">
         <div class="footer-content">
-            <p>&copy; {{ 'now' | date: '%Y' }} {{ site.author }}. Built with Jekyll and hosted on GitHub Pages.</p>
-            <p class="footer-links">
-                <a href="{{ site.github_url }}">GitHub</a>
-                <span class="separator">•</span>
-                <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
-            </p>
+            <p class="footer-links">&copy; {{ 'now' | date: '%Y' }}<a href="{{ '/' | relative_url }}">{{ site.author
+                    }}</a>. Built with Jekyll and hosted on <a href="{{ site.github_url }}">GitHub</a>.</p>
         </div>
     </footer>
 

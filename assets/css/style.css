@@ -324,17 +324,16 @@ body {
 .footer-content {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0.2rem;
   text-align: center;
   color: #666;
 }
 
 .footer-links {
-  margin-top: 0.5rem;
+  margin-top: 0.1rem;
 }
 
 .footer-links a {
-  color: var(--accent-color);
   text-decoration: none;
 }
 

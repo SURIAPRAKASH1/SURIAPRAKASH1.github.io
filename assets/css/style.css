@@ -323,11 +323,14 @@ body {
   max-width: var(--max-width);
   margin: 0 auto;
   text-align: center;
+  font-size: small;
+  padding: 0.1rem;
   color: #666;
 }
 
 .footer-links a {
   text-decoration: none;
+  color: antiquewhite;
 }
 
 .footer-links a:hover {

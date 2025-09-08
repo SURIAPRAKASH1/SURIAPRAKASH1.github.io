@@ -1,78 +1,43 @@
 # Site settings
 title: "suriya's stuffs"
-description: "Understading concepts, In the way i wanted !"
-baseurl: "" # Leave empty if this is your main GitHub Pages site
-url: "https://SURIAPRAKASH1.github.io"
-author: "suriya prakash"
+description: "Exploring RL algorithms with intuitive explanations and practical implementations"
+author: "Suriya Prakash"
+email: your-email@example.com
+baseurl: "/your-rl-blog" # the subpath of your site, e.g. /blog
+url: "https://SURIAPRAKASH1.github.io" # the base hostname & protocol for your site
+github_url: "https://github.com/yourusername/your-rl-blog"
 
 # Build settings
 markdown: kramdown
-highlighter: rouge
 kramdown:
-  math_engine: mathjax
-  syntax_highlighter: rouge
   input: GFM
-  hard_wrap: false
-  auto_ids: true
-  footnote_nr: 1
-  entity_output: as_char
-  toc_levels: 1..6
-  smart_quotes: lsquo,rsquo,ldquo,rdquo
-  enable_coderay: false
+  syntax_highlighter: rouge
+  math_engine: mathjax
 
-# MathJax configuration for beautiful equation rendering
-mathjax:
-  source: https://polyfill.io/v3/polyfill.min.js?features=es6
-  config: |
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        processEscapes: true,
-        processEnvironments: true,
-        packages: {'[+]': ['ams', 'newcommand', 'configmacros']}
-      },
-      options: {
-        ignoreHtmlClass: 'tex2jax_ignore',
-        processHtmlClass: 'tex2jax_process'
-      }
-    };
+# Permalinks
+permalink: /posts/:title/
 
-# Collections for organizing different types of content
+# Collections
 collections:
-  algorithms:
+  posts:
     output: true
-    permalink: /:collection/:name/
-  concepts:
-    output: true
-    permalink: /:collection/:name/
+    permalink: /posts/:title/
 
-# Plugins (GitHub Pages supports these automatically)
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      comments: false
+
+# Plugins
 plugins:
   - jekyll-feed
-  - jekyll-sitemap
   - jekyll-seo-tag
-  - jekyll-gist
 
-# Pagination
-paginate: 10
-paginate_path: "/page:num/"
-
-# Navigation links
-navigation:
-  - title: "Home"
-    url: "/"
-  - title: "Concepts"
-    url: "/concepts/"
-  - title: "Algorithms"
-    url: "/algorithms/"
-  - title: "About"
-    url: "/about/"
-
-# Code highlighting theme
-rouge_theme: github
-
-# Exclude files from processing
+# Exclude from processing
 exclude:
   - Gemfile
   - Gemfile.lock

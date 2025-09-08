@@ -1,49 +1,46 @@
 ---
 layout: default
 ---
-<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
+<article class="post">
     <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">{{ page.title | escape }}</h1>
-        <p class="post-meta">
-
-            <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
-                {% assign date_format = site.minima.date_format | default: "%b %-d, %Y" %}
-                {{ page.date | date: date_format }}
-            </time>
-
-            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
-                by <span itemprop="name">{{ site.author }}</span>
-            </span>
-
-            <!-- <span>
+        <h1 class="post-title">{{ page.title }}</h1>
+        <div class="post-meta">
+            <span class="post-date">📅 {{ page.date | date: "%B %d, %Y" }}</span>
+            {% if page.tags.size > 0 %}
+            <div class="post-tags">
                 {% for tag in page.tags %}
-                {% capture tag_name %}{{ tag }}{% endcapture %}
-                <a class="post-tag" href="/lil-log/tag/{{ tag_name }}">
-                    <nobr>{{ tag_name }}</nobr>&nbsp;
+                <a href="{{ '/tags' | relative_url }}" style="color: #666; text-decoration: none;">
+                    🏷️ {{ tag }}
                 </a>
                 {% endfor %}
-            </span> -->
-        </p>
+            </div>
+            {% endif %}
+        </div>
     </header>
 
-    <div class="post-content" itemprop="articleBody">
+    <div class="post-content">
         {{ content }}
     </div>
 
+    <!-- Navigation to previous/next posts -->
+    <nav class="post-navigation" style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e0e0e0;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            {% if page.previous %}
+            <a href="{{ page.previous.url | relative_url }}" style="text-decoration: none; color: #3498db;">
+                ← {{ page.previous.title | truncate: 30 }}
+            </a>
+            {% else %}
+            <span></span>
+            {% endif %}
 
-    <div class="page-navigation">
-        {% if page.previous.url %}
-        <a class="prev" href="{{page.previous.url | relative_url}}">&larr; {{page.previous.title}}</a>
-        {% endif %}
-
-        {% if page.next.url %}
-        <a class="next" href="{{page.next.url | relative_url}}">{{page.next.title}} &rarr;</a>
-        {% endif %}
-    </div>
-
-    {% if page.comments %}
-    {% include disqus.html %}
-    {% endif %}
-
+            {% if page.next %}
+            <a href="{{ page.next.url | relative_url }}" style="text-decoration: none; color: #3498db;">
+                {{ page.next.title | truncate: 30 }} →
+            </a>
+            {% else %}
+            <span></span>
+            {% endif %}
+        </div>
+    </nav>
 </article>

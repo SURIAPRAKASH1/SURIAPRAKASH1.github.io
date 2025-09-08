@@ -1,0 +1,39 @@
+---
+layout: default
+---
+
+<!-- Intro Section -->
+<div class="intro-section">
+    <h1>Welcome to My RL Journey</h1>
+    <p>
+        Hi! I'm a machine learning enthusiast diving deep into Reinforcement Learning.
+        This blog documents my exploration of RL algorithms, from basic concepts to advanced implementations.
+        Here you'll find intuitive explanations, mathematical foundations, and practical code examples
+        that bridge theory and real-world applications.
+    </p>
+</div>
+
+<!-- Posts Grid -->
+<div class="posts-grid">
+    {% for post in site.posts %}
+    <a href="{{ post.url | relative_url }}" class="post-card">
+        <h2>{{ post.title }}</h2>
+        <div class="post-meta">
+            <span class="post-date">
+                📅 {{ post.date | date: "%B %d, %Y" }}
+            </span>
+            {% if post.tags.size > 0 %}
+            <div class="post-tags">
+                {% for tag in post.tags %}
+                <span style="color: #666;">🏷️ {{ tag }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <p class="post-excerpt">
+            {{ post.excerpt | strip_html | truncate: 200 }}
+        </p>
+        <span class="read-more">Read more →</span>
+    </a>
+    {% endfor %}
+</div>

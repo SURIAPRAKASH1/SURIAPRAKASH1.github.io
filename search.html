@@ -1,0 +1,97 @@
+---
+layout: default
+title: Search
+permalink: /search/
+---
+
+<div class="search-container">
+    <h1>Search Posts</h1>
+    <p style="margin-bottom: 2rem; color: #666;">
+        Search through post titles, tags, and content to find what you're looking for.
+    </p>
+
+    <input type="text" class="search-box" id="search-input"
+        placeholder="Type to search... (e.g., 'Q-learning', 'policy gradient', 'MDP')" autocomplete="off">
+
+    <div id="search-results" class="search-results">
+        <!-- Results will appear here -->
+    </div>
+</div>
+
+<script>
+    // Create searchable index of all posts
+    const searchIndex = [
+        {% for post in site.posts %}
+    {
+        title: "{{ post.title | escape }}",
+            url: "{{ post.url | relative_url }}",
+                tags: { { post.tags | jsonify } },
+        content: "{{ post.content | strip_html | escape | truncate: 500 }}",
+            excerpt: "{{ post.excerpt | strip_html | escape }}"
+    } {% unless forloop.last %}, {% endunless %}
+    {% endfor %}
+];
+
+    // Search functionality
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+
+    function performSearch(query) {
+        if (query.length < 2) {
+            searchResults.innerHTML = '<p style="color: #666;">Type at least 2 characters to search...</p>';
+            return;
+        }
+
+        const lowerQuery = query.toLowerCase();
+
+        // Search through posts
+        const results = searchIndex.filter(post => {
+            const titleMatch = post.title.toLowerCase().includes(lowerQuery);
+            const tagsMatch = post.tags.some(tag => tag.toLowerCase().includes(lowerQuery));
+            const contentMatch = post.content.toLowerCase().includes(lowerQuery);
+
+            return titleMatch || tagsMatch || contentMatch;
+        });
+
+        // Display results
+        if (results.length === 0) {
+            searchResults.innerHTML = `
+            <p style="color: #666;">No results found for "${query}"</p>
+            <p style="color: #999; font-size: 0.9rem; margin-top: 1rem;">
+                Try searching for different keywords or check the tags page for browsing by category.
+            </p>
+        `;
+            return;
+        }
+
+        searchResults.innerHTML = `
+        <p style="color: #666; margin-bottom: 1rem;">Found ${results.length} result${results.length > 1 ? 's' : ''}</p>
+        ${results.map(post => `
+            <a href="${post.url}" class="search-result-item">
+                <div class="search-result-title">${highlightMatch(post.title, query)}</div>
+                <div class="search-result-tags">
+                    Tags: ${post.tags.length > 0 ? post.tags.join(', ') : 'No tags'}
+                </div>
+            </a>
+        `).join('')}
+    `;
+    }
+
+    // Highlight matching text in results
+    function highlightMatch(text, query) {
+        const regex = new RegExp(`(${query})`, 'gi');
+        return text.replace(regex, '<mark style="background: yellow; padding: 2px;">$1</mark>');
+    }
+
+    // Add debouncing for better performance
+    let searchTimeout;
+    searchInput.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            performSearch(e.target.value);
+        }, 300);
+    });
+
+    // Show initial message
+    searchResults.innerHTML = '<p style="color: #666;">Start typing to search through posts...</p>';
+</script>

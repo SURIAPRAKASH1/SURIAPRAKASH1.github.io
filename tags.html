@@ -1,0 +1,98 @@
+---
+layout: default
+title: Tags
+permalink: /tags/
+---
+
+<div class="tags-container">
+    <h1>Browse by Tags</h1>
+    <p style="margin-bottom: 2rem; color: #666;">
+        Click on any tag to see related posts. The number shows how many posts use that tag.
+    </p>
+
+    <!-- Collect all tags and count them -->
+    {% assign all_tags = "" | split: "" %}
+    {% for post in site.posts %}
+    {% assign all_tags = all_tags | concat: post.tags %}
+    {% endfor %}
+
+    {% assign unique_tags = all_tags | uniq | sort %}
+
+    <!-- Display all tags as buttons -->
+    <div class="tags-grid">
+        {% for tag in unique_tags %}
+        {% assign tag_count = 0 %}
+        {% for post in site.posts %}
+        {% if post.tags contains tag %}
+        {% assign tag_count = tag_count | plus: 1 %}
+        {% endif %}
+        {% endfor %}
+
+        <button class="tag-button" data-tag="{{ tag }}" onclick="filterByTag('{{ tag }}')">
+            {{ tag }}
+            <span class="tag-count">{{ tag_count }}</span>
+        </button>
+        {% endfor %}
+    </div>
+
+    <!-- Section to show filtered posts -->
+    <div id="filtered-posts" style="margin-top: 3rem;">
+        <!-- Posts will be dynamically shown here when a tag is clicked -->
+    </div>
+</div>
+
+<script>
+
+    // Store all posts data for filtering
+    const allPosts = [
+        {% for post in site.posts %}
+    {
+        title: "{{ post.title | escape }}",
+            url: "{{ post.url | relative_url }}",
+                date: "{{ post.date | date: '%B %d, %Y' }}",
+                    excerpt: "{{ post.excerpt | strip_html | escape | truncate: 200 }}",
+                        tags: { { post.tags | jsonify } }
+    } {% unless forloop.last %}, {% endunless %}
+
+    {% endfor %}
+];
+
+
+    function filterByTag(tag) {
+        // Update active button state
+        document.querySelectorAll('.tag-button').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        event.target.closest('.tag-button').classList.add('active');
+
+        // Filter posts by selected tag
+        const filteredPosts = allPosts.filter(post => post.tags.includes(tag));
+
+        // Display filtered posts
+        const container = document.getElementById('filtered-posts');
+
+        if (filteredPosts.length === 0) {
+            container.innerHTML = '<p style="color: #666;">No posts found with this tag.</p>';
+            return;
+        }
+
+        container.innerHTML = `
+        <h2 style="margin-bottom: 1.5rem;">Posts tagged with "${tag}"</h2>
+        <div class="posts-grid">
+            ${filteredPosts.map(post => `
+                <a href="${post.url}" class="post-card">
+                    <h2>${post.title}</h2>
+                    <div class="post-meta">
+                        <span class="post-date">📅 ${post.date}</span>
+                        <div class="post-tags">
+                            ${post.tags.map(t => `<span style="color: #666;">🏷️ ${t}</span>`).join(' ')}
+                        </div>
+                    </div>
+                    <p class="post-excerpt">${post.excerpt}</p>
+                    <span class="read-more">Read more →</span>
+                </a>
+            `).join('')}
+        </div>
+    `;
+    }
+</script>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }} | {{ site.title }}</title>
+
+    <!-- MathJax Configuration - This is crucial for equation rendering -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true,
+                packages: { '[+]': ['ams', 'newcommand', 'configmacros'] },
+                macros: {
+                    // Define common RL notation macros
+                    E: "\\mathbb{E}",
+                    R: "\\mathbb{R}",
+                    argmax: "\\operatorname{argmax}",
+                    argmin: "\\operatorname{argmin}"
+                }
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            }
+        };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- CSS for clean, readable typography -->
+    <style>
+        /* Clean, academic-style typography similar to Lilian Weng's blog */
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            color: #333;
+            background-color: #fdfdfd;
+        }
+
+        /* Headers with proper spacing */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: #34495e;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            color: #34495e;
+        }
+
+        /* Equation styling that makes math readable */
+        .MathJax {
+            font-size: 1.1em !important;
+        }
+
+        /* Code blocks with proper syntax highlighting */
+        pre {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        code {
+            background: #f1f3f4;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9em;
+        }
+
+        /* Links to implementation repositories */
+        .implementation-link {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .implementation-link a {
+            color: #1976d2;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .implementation-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Theorem and definition boxes */
+        .theorem,
+        .definition {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .theorem {
+            border-left: 4px solid #9c27b0;
+        }
+
+        .definition {
+            border-left: 4px solid #4caf50;
+        }
+
+        /* Bibliography and references */
+        .references {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid #eee;
+        }
+
+        .references ol {
+            padding-left: 1.2rem;
+        }
+
+        .references li {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Post metadata */
+        .post-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        /* Navigation */
+        .nav {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .nav a {
+            margin: 0 1rem;
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .nav a:hover {
+            color: #3498db;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="{{ site.baseurl }}/">Home</a>
+        <a href="{{ site.baseurl }}/concepts/">Concepts</a>
+        <a href="{{ site.baseurl }}/algorithms/">Algorithms</a>
+        <a href="{{ site.baseurl }}/about/">About</a>
+    </nav>
+
+    <!-- Post Content -->
+    <article>
+        <header>
+            <h1>{{ page.title }}</h1>
+            <div class="post-meta">
+                {{ page.date | date: "%B %d, %Y" }}
+                {% if page.reading_time %} • {{ page.reading_time }} min read{% endif %}
+            </div>
+        </header>
+
+        {{ content }}
+
+        <!-- Implementation Link Section -->
+        {% if page.implementation_repo %}
+        <div class="implementation-link">
+            <strong>Implementation:</strong>
+            <a href="{{ page.implementation_repo }}" target="_blank">
+                View code and experiments in the companion repository →
+            </a>
+        </div>
+        {% endif %}
+
+        <!-- References Section -->
+        {% if page.references %}
+        <div class="references">
+            <h3>References</h3>
+            <ol>
+                {% for ref in page.references %}
+                <li>{{ ref }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+        {% endif %}
+    </article>
+</body>
+
+</html>
